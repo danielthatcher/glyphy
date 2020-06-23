@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"os"
 	"strings"
 
@@ -124,8 +125,10 @@ var target []rune
 func main() {
 	// TODO: urlencode flag
 	var depth int
+	var urlencode bool
 
 	flag.IntVarP(&depth, "max-replacements", "n", 1, "The maximum number of positions to replace in")
+	flag.BoolVarP(&urlencode, "urlencode", "u", false, "URL encode special characters in the data")
 	flag.Parse()
 	if flag.NArg() != 1 {
 		flag.Usage()
@@ -171,6 +174,10 @@ func main() {
 
 	go RecursiveReplace([]rune(target), nil, 0, depth, applied, out)
 	for r := range out {
-		fmt.Println(string(r))
+		s := string(r)
+		if urlencode {
+			s = url.QueryEscape(s)
+		}
+		fmt.Println(s)
 	}
 }
