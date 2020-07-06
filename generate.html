@@ -1,0 +1,44 @@
+<html>
+
+<head></head>
+
+<body>
+    <script>
+        r = /^https:\/\/(xn--|%)/
+        extract = /^https:\/\/(.*)\.com/
+        out = {}
+        for (i = 127; i < 0x10ffff; i++) {
+            c = String.fromCodePoint(i)
+            if (c.length === 1 && c.charCodeAt(0) !== i) {
+                console.log(`${i} got transformed to ${c} (${c.charCodeAt(0)})`)
+                break
+            }
+            var u = "https://" + c + ".com/"
+            try {
+                href = (new URL(u)).href
+                if (r.test(href)) {
+                    continue
+                }
+                console.log(c, href)
+
+                converted = href.match(extract)[1]
+                if (!out[converted]) {
+                    out[converted] = []
+                }
+
+                out[converted].push(c)
+            } catch (err) { }
+        }
+
+        // Trigger the download
+        var element = document.createElement("a")
+        element.setAttribute("href", "data:application/json;charset=utf-8," + JSON.stringify(out))
+        element.setAttribute("download", "replacements.json")
+        element.style.display = "none"
+        document.body.appendChild(element)
+        element.click()
+        document.body.removeChild(element)
+    </script>
+</body>
+
+</html>

@@ -123,7 +123,6 @@ var positions []*replacement
 var target []rune
 
 func main() {
-	// TODO: urlencode flag
 	var depth int
 	var urlencode bool
 
@@ -156,7 +155,7 @@ func main() {
 
 	// Create a map of the indexes of our replacement target occurrences in the string
 	positions = make([]*replacement, 0)
-	for k, _ := range replacements {
+	for k := range replacements {
 		i := -1
 		for {
 			loc := strings.Index(target[i+1:], k)

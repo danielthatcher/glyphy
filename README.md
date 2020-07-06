@@ -1,5 +1,5 @@
 # glyphy
-Generate unicode homoglyphs for a given string using the substitutions defined at https://appcheck-ng.com/wp-content/uploads/unicode_normalization.html.
+Generate unicode homoglyphs for a given string.
 
 Example usage:
 ```
@@ -76,3 +76,8 @@ This project uses [packr2](https://github.com/gobuffalo/packr/tree/master/v2). O
 packr2
 ```
 Then you can build or install the project with `go build` or `go install` respectively.
+
+## Sources
+The `replacements.json` file which defines the replacments glyphy uses is build using the following sources:
+* https://appcheck-ng.com/wp-content/uploads/unicode_normalization.html.
+* Testing which unicode codepoints get replaced with ASCII character when using in domain names for JavaScript's `URL` constructor in Chrome and Firefox.
