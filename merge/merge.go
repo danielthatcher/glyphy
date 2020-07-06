@@ -31,6 +31,10 @@ func main() {
 		json.Unmarshal(jsonBytes, &replacements)
 
 		for k, v := range replacements {
+			if len(k) == 0 {
+				// Firefox appears to output a 0 length key
+				continue
+			}
 			cv, exists := combined[k]
 			if !exists {
 				cv = replacements[k]
